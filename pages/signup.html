@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Organizer — Eventrix Campus</title>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+<body class="auth-signup">
+  <div class="auth-shell">
+    <aside class="auth-visual">
+      <div class="auth-blob auth-blob-1"></div>
+      <div class="auth-blob auth-blob-2"></div>
+      <div class="auth-visual-inner">
+        <div class="brand">
+          <div class="brand-icon"><img src="../assets/images/photos/campus.png" alt="Eventrix Campus logo"></div>
+          <div>
+            <div class="brand-text">Eventrix Campus</div>
+            <div class="brand-sub">KIUT Event Management</div>
+          </div>
+        </div>
+        <div class="visual-badge"><i class="fa-solid fa-calendar-plus"></i> Organizer registration</div>
+        <h1 class="visual-title">Become an event organizer</h1>
+        <p class="visual-copy">Create campus events, manage registrations, and submit events for admin approval — all from one dashboard.</p>
+        <div class="feats">
+          <div class="feat">
+            <div class="feat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div>
+              <div class="feat-title">Students use reg number</div>
+              <div class="feat-desc">No email signup needed for students</div>
+            </div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <div class="feat-title">Organizers register here</div>
+              <div class="feat-desc">Campus email and secure password</div>
+            </div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon"><i class="fa-solid fa-user-shield"></i></div>
+            <div>
+              <div class="feat-title">Admin pre-configured</div>
+              <div class="feat-desc">Admins use default campus credentials</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="auth-panel-wrap">
+      <div class="auth-mobile-top">
+        <div class="auth-mobile-brand">
+          <img src="../assets/images/photos/campus.png" alt="">
+          Eventrix Campus
+        </div>
+        <button class="back-link" onclick="window.location.href='../index.html'" style="margin:0">
+          <i class="fa-solid fa-arrow-left"></i> Home
+        </button>
+      </div>
+
+      <div class="auth-card">
+        <button class="back-link" onclick="window.location.href='../index.html'">
+          <i class="fa-solid fa-arrow-left"></i> Back to home
+        </button>
+
+        <div class="card-head">
+          <h2 class="card-title">Create Organizer Account</h2>
+          <p class="card-sub" style="font-size:0.88rem;color:var(--muted);margin-top:6px;">After signup, admin must approve your account before you can sign in.</p>
+        </div>
+
+        <div id="signupErrorContainer" class="alert alert-error">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="signupErrorText"></span>
+          <button type="button" class="alert-close" onclick="hideSignupError()">&times;</button>
+        </div>
+        <div id="signupSuccessContainer" class="alert alert-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <span id="signupSuccessText"></span>
+        </div>
+
+        <form id="signupForm" class="signup-form-compact">
+          <div class="frow">
+            <div class="field">
+              <label for="firstName">First Name</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-user field-icon"></i>
+                <input type="text" id="firstName" placeholder="First name" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="lastName">Last Name</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-user field-icon"></i>
+                <input type="text" id="lastName" placeholder="Last name" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email Address</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-envelope field-icon"></i>
+              <input type="email" id="email" placeholder="you@campus.edu" required>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="field">
+              <label for="faculty">Faculty</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-building-columns field-icon"></i>
+                <select id="faculty" onchange="handleFacultyChange(this.value)" required>
+                  <option value="">Select faculty...</option>
+                  <option value="Computing, Management and Social Sciences">Computing &amp; Social Sciences</option>
+                  <option value="Allied Health Sciences">Allied Health Sciences</option>
+                  <option value="Education and Legal Studies">Education &amp; Legal Studies</option>
+                  <option value="Medicine and Pharmaceutical Sciences">Medicine &amp; Pharmacy</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="department">Department</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-book field-icon"></i>
+                <select id="department" disabled required>
+                  <option value="">Select dept...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap has-toggle">
+              <i class="fa-solid fa-lock field-icon"></i>
+              <input type="password" id="password" placeholder="Min. 8 characters" oninput="pwdStrength(this.value)" required>
+              <button type="button" class="toggle-pwd" onclick="togglePassword('password', this)" aria-label="Show password">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <div class="pwd-strength">
+              <div class="pwd-segments">
+                <div class="pwd-seg" id="seg1"></div>
+                <div class="pwd-seg" id="seg2"></div>
+                <div class="pwd-seg" id="seg3"></div>
+                <div class="pwd-seg" id="seg4"></div>
+              </div>
+              <div class="pwd-label" id="slbl"></div>
+            </div>
+          </div>
+
+          <div class="fcheck">
+            <input type="checkbox" id="terms" required>
+            <label for="terms">I agree to the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a></label>
+          </div>
+
+          <button class="btn-primary" type="submit" id="signupBtn">
+            <i class="fa-solid fa-user-plus"></i> Create Account
+          </button>
+        </form>
+
+        <div class="auth-switch auth-switch-compact">
+          Already have an account? <a href="signin.html">Sign in</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = window.location.protocol === 'file:'
+      ? 'http://localhost/Eventrix/api/'
+      : new URL('../api/', window.location.href).href;
+
+    const departments = {
+      'Computing, Management and Social Sciences': ['Computer Science', 'Information Technology', 'Business Administration', 'Economics', 'Psychology'],
+      'Allied Health Sciences': ['Nursing', 'Medical Laboratory', 'Pharmacy', 'Physiotherapy', 'Public Health'],
+      'Education and Legal Studies': ['Education', 'Law', 'Early Childhood', 'Special Education', 'Legal Studies'],
+      'Medicine and Pharmaceutical Sciences': ['Medicine', 'Surgery', 'Pharmacy', 'Dentistry', 'Biomedical Sciences']
+    };
+
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('i');
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      icon.className = isHidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+      btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    }
+
+    function handleFacultyChange(faculty) {
+      const deptSelect = document.getElementById('department');
+      deptSelect.innerHTML = '<option value="">Select department...</option>';
+      if (faculty && departments[faculty]) {
+        deptSelect.disabled = false;
+        departments[faculty].forEach(dept => {
+          const option = document.createElement('option');
+          option.value = dept;
+          option.textContent = dept;
+          deptSelect.appendChild(option);
+        });
+      } else {
+        deptSelect.disabled = true;
+      }
+    }
+
+    function pwdStrength(password) {
+      const segs = [document.getElementById('seg1'), document.getElementById('seg2'), document.getElementById('seg3'), document.getElementById('seg4')];
+      const slbl = document.getElementById('slbl');
+      let score = 0;
+      if (password.length >= 8) score++;
+      if (/[a-z]/.test(password)) score++;
+      if (/[A-Z]/.test(password)) score++;
+      if (/[0-9]/.test(password)) score++;
+
+      const levels = ['', 'weak', 'fair', 'good', 'strong'];
+      const labels = ['', 'Weak password', 'Fair password', 'Good password', 'Strong password'];
+      const level = levels[score] || '';
+
+      segs.forEach((seg, i) => {
+        seg.className = 'pwd-seg' + (i < score ? ' on ' + level : '');
+      });
+      slbl.textContent = password ? (labels[score] || '') : '';
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showSignupError(message) {
+      hideSignupSuccess();
+      const el = document.getElementById('signupErrorContainer');
+      document.getElementById('signupErrorText').textContent = message;
+      el.classList.add('show');
+      setTimeout(hideSignupError, 5000);
+    }
+
+    function hideSignupError() {
+      document.getElementById('signupErrorContainer').classList.remove('show');
+    }
+
+    function showSignupSuccess(message) {
+      hideSignupError();
+      const el = document.getElementById('signupSuccessContainer');
+      document.getElementById('signupSuccessText').textContent = message;
+      el.classList.add('show');
+    }
+
+    function hideSignupSuccess() {
+      const el = document.getElementById('signupSuccessContainer');
+      if (el) el.classList.remove('show');
+    }
+
+    function extractBackendError(result, response) {
+      if (result && typeof result === 'object') {
+        return result.message || result.error || `HTTP ${response?.status || 'error'}`;
+      }
+      return `HTTP ${response?.status || 'error'}`;
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const faculty = document.getElementById('faculty').value;
+      const department = document.getElementById('department').value;
+      const password = document.getElementById('password').value;
+      const terms = document.getElementById('terms').checked;
+      const btn = document.getElementById('signupBtn');
+      const originalHtml = btn.innerHTML;
+
+      if (!firstName || !lastName || !email || !faculty || !department || !password) {
+        showSignupError('Please fill all fields');
+        return;
+      }
+      if (!isValidEmail(email)) {
+        showSignupError('Please enter a valid email address');
+        return;
+      }
+      if (password.length < 8) {
+        showSignupError('Password must be at least 8 characters');
+        return;
+      }
+      if (!terms) {
+        showSignupError('Please agree to the Terms and Privacy Policy');
+        return;
+      }
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(`${API_BASE}auth.php?action=register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            name: firstName + ' ' + lastName,
+            email,
+            password,
+            role: 'organizer',
+            department,
+            faculty
+          })
+        });
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          btn.innerHTML = originalHtml;
+          btn.disabled = false;
+          showSignupError(extractBackendError(result, response));
+          return;
+        }
+
+        sessionStorage.removeItem('currentUser');
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('authToken');
+        sessionStorage.setItem('pendingSigninEmail', email);
+        sessionStorage.setItem('signupSuccess', '1');
+        sessionStorage.setItem('organizerPending', '1');
+
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Account submitted!';
+        showSignupSuccess('Registration submitted! Wait for admin approval before signing in.');
+
+        setTimeout(() => {
+          window.location.href = 'signin.html?tab=staff&registered=1&pending=1';
+        }, 1500);
+      } catch (error) {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+        showSignupError('Unable to reach backend. Please check the server and database.');
+        console.warn('Signup backend error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

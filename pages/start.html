@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFlow Pro - Start Here</title>
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+    <style>
+        :root {
+            --forest: #1b3d2b;
+            --sage: #30704c;
+            --cream: #f6f1e9;
+            --terra: #c4521f;
+            --amber: #cc9820;
+            
+            /* FONT SIZES - Enhanced for better readability */
+            --font-xs:12px;--font-sm:14px;--font-base:18px;--font-lg:20px;--font-xl:24px;
+            --font-2xl:28px;--font-3xl:32px;--font-4xl:36px;--font-5xl:42px;--font-6xl:48px;
+            
+            /* TEXT SIZES - Enhanced readability */
+            --text-xs:12px;--text-sm:14px;--text-base:18px;--text-lg:20px;--text-xl:22px;
+            --text-2xl:24px;--text-3xl:28px;--text-4xl:32px;--text-5xl:36px;
+            
+            /* LINE HEIGHTS - Better spacing */
+            --leading-none:1;--leading-tight:1.25;--leading-snug:1.375;
+            --leading-normal:1.5;--leading-relaxed:1.625;--leading-loose:2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #e8e0d1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-size: var(--text-base);
+            line-height: var(--leading-normal);
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(27,61,43,0.15);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        h1 {
+            color: var(--forest);
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .warning {
+            background: rgba(196, 82, 31, 0.1);
+            border: 2px solid var(--terra);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: var(--terra);
+            font-weight: 600;
+        }
+        
+        .steps {
+            text-align: left;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .steps h3 {
+            color: var(--forest);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .steps ol {
+            color: #333;
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+        
+        .steps li {
+            margin-bottom: 10px;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--forest), var(--sage));
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(27,61,43,0.2);
+        }
+        
+        .button.secondary {
+            background: linear-gradient(135deg, var(--terra), #e06030);
+        }
+        
+        .button.outline {
+            background: transparent;
+            border: 2px solid var(--forest);
+            color: var(--forest);
+        }
+        
+        .button.outline:hover {
+            background: var(--forest);
+            color: white;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .info-box {
+            background: rgba(27, 61, 43, 0.05);
+            border-left: 4px solid var(--forest);
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-box h4 {
+            color: var(--forest);
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 5px;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo"><img src="../assets/images/photos/campus.png" alt="Eventrix Campus logo" style="width:36px;height:36px;border-radius:10px;object-fit:cover;"></div>
+        <h1>CampusFlow Pro</h1>
+        <p class="subtitle">Smart Campus Event Management Platform</p>
+        
+        <div class="warning">
+            ⚠️ <strong>Important:</strong> This application requires XAMPP/Apache server, not Live Server extension!
+        </div>
+        
+        <div class="steps">
+            <h3>🚀 Quick Setup Steps</h3>
+            <ol>
+                <li><strong>Install XAMPP</strong> from <a href="https://www.apachefriends.org" target="_blank">apachefriends.org</a></li>
+                <li><strong>Start XAMPP Control Panel</strong></li>
+                <li><strong>Start Apache</strong> and <strong>MySQL</strong> services</li>
+                <li><strong>Copy Miriamu folder</strong> to <code>C:\xampp\htdocs\</code></li>
+                <li><strong>Open browser</strong> to <code>http://localhost/Miriamu/</code></li>
+                <li><strong>Setup database</strong> using manual configuration</li>
+                <li><strong>Test registration</strong> and login functionality</li>
+            </ol>
+        </div>
+        
+        <div class="info-box">
+            <h4>🔧 Current Status</h4>
+            <p>
+                <span class="status error">Live Server</span> - Cannot run PHP files<br>
+                <span class="status warning">XAMPP</span> - Required for PHP<br>
+                <span class="status success">Apache</span> - Proper web server
+            </p>
+        </div>
+        
+        <div class="buttons">
+            <a href="#" class="button" onclick="alert('PHP functionality has been removed. Please use manual setup.')">
+                🗄️ Setup Database
+            </a>
+            <a href="#" class="button secondary" onclick="alert('PHP functionality has been removed. Please use manual registration.')">
+                📝 Registration Form
+            </a>
+            <a href="#" class="button outline" onclick="alert('PHP functionality has been removed. Please use manual login.')">
+                🔐 Login Form
+            </a>
+        </div>
+        
+        <div class="info-box">
+            <h4>📁 Project Structure</h4>
+            <p>
+                After setup, your files should be at:<br>
+                <code>C:\xampp\htdocs\Miriamu\</code><br><br>
+                Access via:<br>
+                <code>http://localhost/Miriamu/</code>
+            </p>
+        </div>
+        
+        <div class="buttons">
+            <a href="README-XAMPP-SETUP.md" class="button outline">
+                📋 Full Setup Guide
+            </a>
+            <a href="#" class="button outline" onclick="alert('PHP functionality has been removed.')">
+                🧪 PHP Test
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Check if running on localhost
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            document.querySelector('.warning').style.display = 'none';
+        }
+        
+        // Auto-redirect if on proper server
+        setTimeout(() => {
+            if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                if (confirm('This needs XAMPP Apache server. Open setup guide?')) {
+                    window.location.href = 'README-XAMPP-SETUP.md';
+                }
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

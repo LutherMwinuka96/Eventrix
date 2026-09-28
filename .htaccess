@@ -1,0 +1,106 @@
+# KIUT-Eventrix Campus - Apache Configuration
+# Basic configuration for Eventrix Campus Management System
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Enable XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# PHP Configuration
+<IfModule mod_php.c>
+    # Error reporting
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value error_log "logs/php_errors.log"
+    
+    # Security settings
+    php_flag allow_url_fopen Off
+    php_flag allow_url_include Off
+    php_flag file_uploads On
+    php_value upload_max_filesize "5M"
+    php_value post_max_size "8M"
+    php_value max_execution_time "30"
+    php_value max_input_time "30"
+    php_value memory_limit "128M"
+    
+    # Session security
+    php_flag session.use_only_cookies On
+    php_flag session.cookie_httponly On
+    php_flag session.cookie_secure Off
+    php_flag session.use_trans_sid Off
+</IfModule>
+
+# File access protection
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|bak|backup|old)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(config|helpers)\.php$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^test.*\.php$">
+    Require ip 127.0.0.1 ::1
+</FilesMatch>
+
+# Uploads directory protection
+<FilesMatch "uploads/\.(jpg|jpeg|png|gif|webp|svg)$">
+    Require all granted
+</FilesMatch>
+
+<FilesMatch "uploads/.*">
+    Require all denied
+</FilesMatch>
+
+# API CORS headers
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/api/ [NC]
+    RewriteRule .* - [E=API_REQUEST:1]
+</IfModule>
+
+<IfModule mod_headers.c>
+    <IfDefine API_REQUEST>
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    </IfDefine>
+</IfModule>
+
+# Prevent HTTP TRACK attacks
+RewriteCond %{REQUEST_METHOD} ^TRACK$
+RewriteRule .* - [F]
+
+# Bot protection
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase User-Agent "^$" bad_bot
+    SetEnvIfNoCase User-Agent "^bot" bad_bot
+    SetEnvIfNoCase User-Agent "^crawl" bad_bot
+    SetEnvIfNoCase User-Agent "^spider" bad_bot
+    SetEnvIfNoCase User-Agent "^scrape" bad_bot
+</IfModule>
+
+# Default index files
+DirectoryIndex index.html index.php
+
+# Error documents
+ErrorDocument 404 /index.html
+ErrorDocument 500 /index.html

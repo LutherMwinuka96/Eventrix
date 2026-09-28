@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Eventrix Campus</title>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <script src="../assets/js/student-reg.js"></script>
+</head>
+<body class="auth-signin">
+  <div class="auth-shell">
+    <aside class="auth-visual auth-visual-signin">
+      <div class="auth-blob auth-blob-1"></div>
+      <div class="auth-blob auth-blob-2"></div>
+      <div class="auth-visual-inner">
+        <div class="brand">
+          <div class="brand-icon"><img src="../assets/images/photos/campus.png" alt="Eventrix Campus logo"></div>
+          <div>
+            <div class="brand-text">Eventrix Campus</div>
+            <div class="brand-sub">KIUT Event Management</div>
+          </div>
+        </div>
+
+        <div class="visual-badge"><i class="fa-solid fa-right-to-bracket"></i> Sign in to Eventrix</div>
+        <h1 class="visual-title">Your campus events,<br>one login away</h1>
+        <p class="visual-copy">Browse events, register instantly, and manage activities — all from your dashboard.</p>
+
+        <p class="visual-section-label">Who can sign in?</p>
+        <div class="visual-roles">
+          <div class="vrole">
+            <div class="vrole-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="vrole-title">Student</div>
+            <div class="vrole-desc">Reg no · added by admin</div>
+          </div>
+          <div class="vrole">
+            <div class="vrole-icon"><i class="fa-solid fa-calendar-plus"></i></div>
+            <div class="vrole-title">Organizer</div>
+            <div class="vrole-desc">Email &amp; password</div>
+          </div>
+          <div class="vrole">
+            <div class="vrole-icon"><i class="fa-solid fa-user-shield"></i></div>
+            <div class="vrole-title">Admin</div>
+            <div class="vrole-desc">Email &amp; password</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="auth-panel-wrap">
+      <div class="auth-mobile-top">
+        <div class="auth-mobile-brand">
+          <img src="../assets/images/photos/campus.png" alt="">
+          Eventrix Campus
+        </div>
+        <button class="back-link" onclick="window.location.href='../index.html'" style="margin:0">
+          <i class="fa-solid fa-arrow-left"></i> Home
+        </button>
+      </div>
+
+      <div class="auth-card">
+        <button class="back-link" onclick="window.location.href='../index.html'">
+          <i class="fa-solid fa-arrow-left"></i> Back to home
+        </button>
+
+        <div class="card-head">
+          <h2 class="card-title">Welcome back</h2>
+          <p class="card-sub">Sign in to continue to your dashboard</p>
+        </div>
+
+        <div id="signinErrorContainer" class="alert alert-error">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="signinErrorText"></span>
+          <button type="button" class="alert-close" onclick="hideSigninError()">&times;</button>
+        </div>
+        <div id="signinSuccessContainer" class="alert alert-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <span id="signinSuccessText"></span>
+        </div>
+
+        <div class="tabs-wrap">
+          <div class="tabs" id="authTabs">
+            <div class="tab-indicator"></div>
+            <button type="button" class="tab active" id="tabStudent" onclick="switchTab('student')">
+              <i class="fa-solid fa-graduation-cap"></i> Student
+            </button>
+            <button type="button" class="tab" id="tabStaff" onclick="switchTab('staff')">
+              <i class="fa-solid fa-shield-halved"></i> Staff
+            </button>
+          </div>
+        </div>
+
+        <div id="panelStudent" class="panel active">
+          <div class="field">
+            <label for="studentRegNo">Registration Number</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-id-card field-icon"></i>
+              <input type="text" id="studentRegNo" placeholder="e.g. BCS/23456/2301/DT" autocomplete="off"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();handleStudentAccess(event);}">
+            </div>
+          </div>
+          <button type="button" class="btn-primary" id="studentAccessBtn" onclick="handleStudentAccess(event)">
+            <i class="fa-solid fa-door-open"></i> Access Dashboard
+          </button>
+        </div>
+
+        <div id="panelStaff" class="panel">
+          <div class="role-pick">
+            <button type="button" class="role-btn active" id="roleOrganizer" onclick="selectStaffRole('organizer')">
+              <i class="fa-solid fa-calendar-plus"></i>
+              Organizer
+            </button>
+            <button type="button" class="role-btn" id="roleAdmin" onclick="selectStaffRole('admin')">
+              <i class="fa-solid fa-user-shield"></i>
+              Admin
+            </button>
+          </div>
+          <div class="admin-hint" id="adminHint">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Enter your campus admin email and password to sign in.</span>
+          </div>
+          <form id="signinForm" onsubmit="handleSignIn(event); return false;">
+            <div class="field">
+              <label for="email">Email Address</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-envelope field-icon"></i>
+                <input type="email" id="email" placeholder="organizer@campus.edu" required>
+              </div>
+            </div>
+            <div class="field" id="passwordField">
+              <label for="password">Password</label>
+              <div class="input-wrap has-toggle">
+                <i class="fa-solid fa-lock field-icon"></i>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <button type="button" class="toggle-pwd" onclick="togglePassword('password', this)" aria-label="Show password">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary" id="signinBtn">
+              <i class="fa-solid fa-right-to-bracket"></i> Sign In
+            </button>
+          </form>
+          <div class="signup-block" id="organizerSignupSection">
+            <p>New event organizer?</p>
+            <a href="signup.html" class="btn-outline"><i class="fa-solid fa-user-plus"></i> Register as Organizer</a>
+            <p class="signup-note">Admin accounts are pre-configured and cannot be self-registered.</p>
+          </div>
+        </div>
+
+        <div class="auth-footer-note">
+          <i class="fa-solid fa-lock"></i> Encrypted session · Campus-only access
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = window.location.protocol === 'file:'
+      ? 'http://localhost/Eventrix/api/'
+      : new URL('../api/', window.location.href).href;
+
+    let selectedStaffRole = 'organizer';
+
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('i');
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      icon.className = isHidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+      btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    }
+
+    function updateStaffFormForRole(role) {
+      const passwordInput = document.getElementById('password');
+      const emailInput = document.getElementById('email');
+      const isAdmin = role === 'admin';
+
+      document.getElementById('adminHint').classList.toggle('show', isAdmin);
+      document.getElementById('organizerSignupSection').style.display = isAdmin ? 'none' : 'block';
+
+      if (passwordInput) {
+        passwordInput.required = true;
+        passwordInput.value = '';
+        passwordInput.placeholder = 'Enter your password';
+      }
+      if (emailInput) {
+        emailInput.value = '';
+        emailInput.placeholder = isAdmin ? 'admin@campus.edu' : 'organizer@campus.edu';
+      }
+    }
+
+    function switchTab(tab) {
+      const isStudent = tab === 'student';
+      document.getElementById('tabStudent').classList.toggle('active', isStudent);
+      document.getElementById('tabStaff').classList.toggle('active', !isStudent);
+      document.getElementById('panelStudent').classList.toggle('active', isStudent);
+      document.getElementById('panelStaff').classList.toggle('active', !isStudent);
+      document.getElementById('authTabs').classList.toggle('staff-active', !isStudent);
+      hideSigninError();
+      hideSigninSuccess();
+      setTimeout(() => (isStudent ? document.getElementById('studentRegNo') : document.getElementById('email'))?.focus(), 50);
+    }
+
+    function selectStaffRole(role) {
+      selectedStaffRole = role;
+      document.getElementById('roleOrganizer').classList.toggle('active', role === 'organizer');
+      document.getElementById('roleAdmin').classList.toggle('active', role === 'admin');
+      updateStaffFormForRole(role);
+      document.getElementById(role === 'admin' ? 'email' : 'password')?.focus();
+    }
+
+    async function handleStudentAccess(event) {
+      if (event) event.preventDefault();
+
+      const regInput = document.getElementById('studentRegNo');
+      const regNo = regInput?.value.trim() || '';
+      const btn = document.getElementById('studentAccessBtn');
+      const originalText = btn.innerHTML;
+
+      regInput?.classList.remove('input-error');
+
+      if (!regNo) {
+        regInput?.classList.add('input-error');
+        showSigninError('Please enter your registration number');
+        return false;
+      }
+
+      const regNoNormalized = regNo.replace(/\s+/g, '').toUpperCase();
+      if (!window.StudentReg?.isValidRegNo(regNoNormalized)) {
+        regInput?.classList.add('input-error');
+        showSigninError('Invalid format. Use e.g. BCS/23456/2301/DT (course/number/year/DT)');
+        return false;
+      }
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+      btn.disabled = true;
+      hideSigninError();
+
+      try {
+        const response = await fetch(`${API_BASE}auth.php?action=student_access`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ reg_no: regNoNormalized })
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          finishStudentLogin(result.data.user, result.data.token, regNoNormalized, result.data.notification);
+          return false;
+        }
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        regInput?.classList.add('input-error');
+        showSigninError(result.message || 'Registration number not found. Contact campus admin.');
+        return false;
+      } catch (error) {
+        console.warn('Backend student access unavailable, checking local roster:', error);
+        const users = JSON.parse(localStorage.getItem('users') || localStorage.getItem('kiut_users') || '[]');
+        const student = users.find(u =>
+          u.role === 'student' &&
+          u.isActive !== false &&
+          (u.idNumber === regNoNormalized || u.regNumber === regNoNormalized || u.reg_no === regNoNormalized)
+        );
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+
+        if (!student) {
+          regInput?.classList.add('input-error');
+          showSigninError('Registration number not found. Students cannot self-register — ask campus admin to add you.');
+          return false;
+        }
+
+        finishStudentLogin(student, 'demo-token-' + Date.now(), regNoNormalized);
+        return false;
+      }
+    }
+
+    function finishStudentLogin(sessionUser, token, regNoNormalized, backendNotification) {
+      const btn = document.getElementById('studentAccessBtn');
+      localStorage.setItem('currentUser', JSON.stringify(sessionUser));
+      sessionStorage.setItem('currentUser', JSON.stringify(sessionUser));
+      localStorage.setItem('authToken', token || 'session-' + Date.now());
+      const keySource = sessionUser.email || sessionUser.id || 'student';
+      sessionStorage.setItem(`studentRegVerified:${keySource}`, regNoNormalized);
+      localStorage.setItem(`studentRegVerified:${keySource}`, regNoNormalized);
+
+      const notification = backendNotification || {
+        id: 'login-' + Date.now(),
+        targetUserId: sessionUser.id,
+        title: 'Welcome to Campus Events',
+        message: 'Dashboard unlocked using registration number ' + regNoNormalized,
+        type: 'success',
+        actionType: 'login',
+        read: false,
+        timestamp: new Date().toISOString()
+      };
+      saveLocalNotification(notification, sessionUser.id);
+      sessionStorage.setItem('flushNotifPopups', '1');
+
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Dashboard Unlocked!';
+      showSigninSuccess('Student access granted! Redirecting...');
+      setTimeout(() => { window.location.href = 'app.html'; }, 900);
+    }
+
+    async function handleSignIn(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('signinBtn');
+      const originalHtml = btn.innerHTML;
+
+      if (!email || !password) {
+        showSigninError('Please enter email and password');
+        return false;
+      }
+      if (!isValidEmail(email)) {
+        showSigninError('Please enter a valid email address');
+        return false;
+      }
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
+      btn.disabled = true;
+      hideSigninError();
+
+      try {
+        const response = await fetch(`${API_BASE}auth.php?action=login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, password, role: selectedStaffRole })
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          const sessionUser = result.data.user;
+          if (sessionUser.role === 'student') {
+            btn.innerHTML = originalHtml;
+            btn.disabled = false;
+            showSigninError('Students must use registration number access only');
+            switchTab('student');
+            return false;
+          }
+          localStorage.setItem('currentUser', JSON.stringify(sessionUser));
+          sessionStorage.setItem('currentUser', JSON.stringify(sessionUser));
+          localStorage.setItem('authToken', result.data.token || 'session-' + Date.now());
+
+          const notification = result.data.notification || {
+            id: 'login-' + Date.now(),
+            targetUserId: sessionUser.id,
+            title: 'Login successful',
+            message: 'Welcome back, ' + sessionUser.name + '.',
+            type: 'success',
+            actionType: 'login',
+            read: false,
+            timestamp: new Date().toISOString()
+          };
+          saveLocalNotification(notification, sessionUser.id);
+          sessionStorage.setItem('flushNotifPopups', '1');
+
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Login successful!';
+          showSigninSuccess('Login successful. Redirecting to dashboard...');
+          setTimeout(() => { window.location.href = 'app.html'; }, 900);
+          return false;
+        }
+
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+        showSigninError(result.message || 'Invalid credentials');
+        return false;
+      } catch (error) {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+        showSigninError('Unable to reach backend. Please check the server and database.');
+        console.warn('Backend login failed:', error);
+        return false;
+      }
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showSigninError(message) {
+      hideSigninSuccess();
+      const el = document.getElementById('signinErrorContainer');
+      document.getElementById('signinErrorText').textContent = message;
+      el.classList.add('show');
+      setTimeout(hideSigninError, 5000);
+    }
+
+    function hideSigninError() {
+      document.getElementById('signinErrorContainer').classList.remove('show');
+    }
+
+    function showSigninSuccess(message) {
+      hideSigninError();
+      const el = document.getElementById('signinSuccessContainer');
+      document.getElementById('signinSuccessText').textContent = message;
+      el.classList.add('show');
+    }
+
+    function hideSigninSuccess() {
+      document.getElementById('signinSuccessContainer').classList.remove('show');
+    }
+
+    function saveLocalNotification(notification, targetUserId) {
+      const list = JSON.parse(localStorage.getItem('notifications') || '[]');
+      const localNotification = {
+        id: notification.id || 'notif-' + Date.now(),
+        target: targetUserId || notification.targetUserId || 'all',
+        targetUserId: notification.targetUserId || targetUserId || null,
+        targetRole: notification.targetRole || null,
+        title: notification.title,
+        message: notification.message,
+        type: notification.type || 'info',
+        read: false,
+        timestamp: notification.timestamp || new Date().toISOString(),
+        actionType: notification.actionType || 'manual'
+      };
+      list.unshift(localNotification);
+      localStorage.setItem('notifications', JSON.stringify(list));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('authToken');
+      const user = localStorage.getItem('currentUser');
+      if (token && user && params.get('registered') !== '1') {
+        window.location.href = 'app.html';
+        return;
+      }
+
+      if (params.get('tab') === 'staff') {
+        switchTab('staff');
+        if (params.get('role') === 'admin') selectStaffRole('admin');
+      } else {
+        switchTab('student');
+      }
+      selectStaffRole(selectedStaffRole);
+
+      if (params.get('registered') === '1' || sessionStorage.getItem('signupSuccess') === '1') {
+        sessionStorage.removeItem('signupSuccess');
+        const pendingApproval = params.get('pending') === '1' || sessionStorage.getItem('organizerPending') === '1';
+        sessionStorage.removeItem('organizerPending');
+        if (pendingApproval) {
+          showSigninSuccess('Organizer account submitted! Wait for admin approval before signing in.');
+        } else {
+          showSigninSuccess('Organizer account created! Sign in with your email and password.');
+        }
+        const pendingEmail = sessionStorage.getItem('pendingSigninEmail');
+        if (pendingEmail) {
+          document.getElementById('email').value = pendingEmail;
+          sessionStorage.removeItem('pendingSigninEmail');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

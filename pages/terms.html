@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms — KIUT-Eventrix Campus</title>
+<link rel="stylesheet" href="../assets/css/fonts.css">
+<style>
+:root{
+  --cream:#f6f1e9;--cream2:#ede5d4;--cream3:#e3d9c6;--parch:#cfc3a8;
+  --forest:#1b3d2b;--forest2:#24543a;--forest3:#30704c;--sage:#5c8f6e;--mint:#93c4a6;
+  --terra:#c4521f;--terra2:#e06030;--amber:#cc9820;--amber2:#f0b830;
+  --ink:#18180f;--ink2:#2a2a1a;--muted:#7a7a62;--muted2:#a0a088;
+  --border:rgba(27,61,43,.11);--border2:rgba(27,61,43,.06);
+  --sh:0 2px 16px rgba(27,61,43,.1);--sh-lg:0 12px 48px rgba(27,61,43,.16);
+  --r:14px;--r2:20px;--r3:10px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:18px;background:var(--cream);color:var(--ink);min-height:100vh;line-height:1.6}
+
+/* NAVBAR */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 24px;display:flex;align-items:center;gap:20px;background:rgba(246,241,233,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:800;color:var(--forest);text-decoration:none;flex:1}
+.nav-logo-ic{width:40px;height:40px;background:var(--forest);border-radius:12px;display:grid;place-items:center;font-size:20px;color:var(--cream);overflow:hidden;flex-shrink:0}
+.nav-logo-ic img{width:100%;height:100%;object-fit:cover;display:block}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-link{padding:8px 16px;border-radius:10px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .2s}
+.nav-link:hover{background:var(--cream2);color:var(--forest)}
+
+/* HERO */
+.hero{padding:80px 24px 30px;text-align:center;max-width:800px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(27,61,43,.08);padding:6px 12px;border-radius:20px;margin-bottom:12px;font-size:12px;font-weight:600;color:var(--forest)}
+.hero-badge::before{content:'📋';font-size:14px}
+.hero-title{font-size:clamp(32px,5vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px}
+.hero-title .gradient{background:linear-gradient(135deg,var(--forest),var(--terra));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--muted);margin-bottom:16px;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* TERMS SECTIONS */
+.terms{padding:20px 24px;max-width:900px;margin:0 auto}
+.terms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.terms-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;transition:all .3s;position:relative;overflow:hidden}
+.terms-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--forest),var(--terra));transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.terms-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.terms-card:hover::before{transform:scaleX(1)}
+.terms-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--forest),var(--terra));display:grid;place-items:center;font-size:20px;color:var(--cream);margin-bottom:12px}
+.terms-title{font-size:18px;font-weight:800;margin-bottom:8px;color:var(--forest)}
+.terms-text{font-size:14px;color:var(--muted);line-height:1.6}
+.terms-list{list-style:none;padding:0;margin:8px 0}
+.terms-list li{font-size:13px;color:var(--muted);padding:4px 0;padding-left:20px;position:relative}
+.terms-list li::before{content:'✓';position:absolute;left:0;color:var(--forest);font-weight:700}
+
+/* DETAILED SECTIONS */
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.detail-section{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;transition:all .3s}
+.detail-section:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.detail-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.detail-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--forest),var(--terra));display:grid;place-items:center;font-size:20px;color:var(--cream)}
+.detail-title{font-size:18px;font-weight:900;color:var(--forest)}
+.detail-content{font-size:14px;color:var(--muted);line-height:1.6}
+.detail-content ul{list-style:none;padding:0;margin:8px 0}
+.detail-content li{padding:4px 0;padding-left:20px;position:relative;font-size:13px}
+.detail-content li::before{content:'▪';position:absolute;left:0;color:var(--forest)}
+
+/* LEGAL */
+.legal{background:linear-gradient(135deg,var(--forest),var(--terra));color:var(--cream);padding:32px;border-radius:16px;text-align:center;margin-top:16px}
+.legal-title{font-size:20px;font-weight:900;margin-bottom:12px}
+.legal-text{font-size:14px;opacity:.9;margin-bottom:16px}
+.legal-date{font-size:12px;opacity:.7}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--cream2);color:var(--forest);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;margin:4px 4px 4px 0}
+.badge.legal::before{content:'⚖️'}
+.badge.binding::before{content:'🤝'}
+.badge.protected::before{content:'🛡️'}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav{padding:12px 16px}
+  .hero{padding:80px 16px 40px}
+  .terms{padding:32px 16px}
+  .terms-grid{grid-template-columns:1fr;gap:16px}
+  .detail-grid{grid-template-columns:1fr}
+}
+@media(max-width:1024px){
+  .terms-grid{grid-template-columns:repeat(2,1fr)}
+  .detail-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-ic"><img src="../assets/images/photos/campus.png" alt="Eventrix Campus logo"></div>
+    KIUT-Eventrix Campus
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="signin.html" class="nav-link">Sign In</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Terms of Service</div>
+  <h1 class="hero-title">Our <span class="gradient">Agreement</span></h1>
+  <p class="hero-sub">By using our platform, you agree to these terms that govern your access and use of Eventrix Campus services.</p>
+</section>
+
+<!-- TERMS OVERVIEW -->
+<section class="terms">
+  <div class="terms-grid">
+    <div class="terms-card">
+      <div class="terms-icon">👤</div>
+      <h3 class="terms-title">User Accounts</h3>
+      <p class="terms-text">Create and manage your account securely with accurate information.</p>
+      <ul class="terms-list">
+        <li>Secure registration</li>
+        <li>Account responsibility</li>
+        <li>Data protection</li>
+      </ul>
+    </div>
+    
+    <div class="terms-card">
+      <div class="terms-icon">📋</div>
+      <h3 class="terms-title">Acceptable Use</h3>
+      <p class="terms-text">Use our platform responsibly and in accordance with applicable laws.</p>
+      <ul class="terms-list">
+        <li>Legal compliance</li>
+        <li>Respectful conduct</li>
+        <li>No harmful content</li>
+      </ul>
+    </div>
+    
+    <div class="terms-card">
+      <div class="terms-icon">🔐</div>
+      <h3 class="terms-title">Privacy & Data</h3>
+      <p class="terms-text">Your information is protected according to our Privacy Policy.</p>
+      <ul class="terms-list">
+        <li>Data protection</li>
+        <li>User consent</li>
+        <li>Secure storage</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DETAILED SECTIONS -->
+  <div class="detail-grid">
+    <div class="detail-section">
+      <div class="detail-header">
+        <div class="detail-icon">📝</div>
+        <h2 class="detail-title">Service Agreement</h2>
+      </div>
+      <div class="detail-content">
+        <p>By accessing Eventrix Campus, you accept these terms as a binding agreement.</p>
+        <ul>
+          <li><strong>Acceptance:</strong> Use constitutes agreement</li>
+          <li><strong>Modification:</strong> Terms may change with notice</li>
+          <li><strong>Continued Use:</strong> Accepts updated terms</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-header">
+        <div class="detail-icon">🎯</div>
+        <h2 class="detail-title">Platform Usage</h2>
+      </div>
+      <div class="detail-content">
+        <p>Eventrix Campus enables university event management and campus engagement.</p>
+        <ul>
+          <li><strong>Event Creation:</strong> Subject to university approval</li>
+          <li><strong>Registration:</strong> For campus events and activities</li>
+          <li><strong>Communication:</strong> Within university community</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-header">
+        <div class="detail-icon">⚖️</div>
+        <h2 class="detail-title">Rights & Obligations</h2>
+      </div>
+      <div class="detail-content">
+        <p>Both users and platform have specific rights and responsibilities.</p>
+        <ul>
+          <li><strong>User Rights:</strong> Access, data control, account deletion</li>
+          <li><strong>User Obligations:</strong> Accurate info, lawful use</li>
+          <li><strong>Platform Rights:</strong> Service modification, enforcement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  </section>
+
+<script>
+// Add scroll effect to navbar
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.nav');
+  if(window.scrollY > 50) {
+    nav.style.background = 'rgba(246,241,233,0.98)';
+    nav.style.boxShadow = '0 2px 20px rgba(27,61,43,0.1)';
+  } else {
+    nav.style.background = 'rgba(246,241,233,0.95)';
+    nav.style.boxShadow = 'none';
+  }
+});
+</script>
+</body>
+</html>

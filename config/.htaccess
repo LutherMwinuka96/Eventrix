@@ -1,0 +1,212 @@
+# KIUT-Eventrix Campus - Apache Configuration
+# This file configures Apache for the Eventrix Campus Management System
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Enable XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Strict Transport Security (HTTPS only)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# PHP Configuration
+<IfModule mod_php.c>
+    # Error reporting
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value error_log "logs/php_errors.log"
+    
+    # Security settings
+    php_flag allow_url_fopen Off
+    php_flag allow_url_include Off
+    php_flag file_uploads On
+    php_value upload_max_filesize "5M"
+    php_value post_max_size "8M"
+    php_value max_execution_time "30"
+    php_value max_input_time "30"
+    php_value memory_limit "128M"
+    
+    # Session security
+    php_flag session.use_only_cookies On
+    php_flag session.cookie_httponly On
+    php_flag session.cookie_secure Off
+    php_value session.cookie_lifetime "86400"
+    php_value session.gc_maxlifetime "86400"
+</IfModule>
+
+# Directory Settings
+Options -Indexes +FollowSymLinks
+
+# Default character set
+AddDefaultCharset UTF-8
+
+# MIME types
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType application/json .json
+    AddType image/svg+xml .svg
+    AddType image/webp .webp
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType font/ttf .ttf
+    AddType font/eot .eot
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+# Cache Control
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # Fonts
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/eot "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # HTML
+    ExpiresByType text/html "access plus 1 hour"
+    
+    # JSON
+    ExpiresByType application/json "access plus 0 seconds"
+</IfModule>
+
+# URL Rewriting Rules
+# API endpoints
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ api/$1 [L,QSA]
+
+# Prevent access to sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|bak|backup|old)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(config|helpers)\.php$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^test.*\.php$">
+    Require ip 127.0.0.1 ::1
+</FilesMatch>
+
+# Prevent access to uploads directory except for images
+<FilesMatch "uploads/\.(jpg|jpeg|png|gif|webp|svg)$">
+    Require all granted
+</FilesMatch>
+
+<FilesMatch "uploads/.*">
+    Require all denied
+</FilesMatch>
+
+# Custom Error Pages
+ErrorDocument 400 /error.html
+ErrorDocument 401 /error.html
+ErrorDocument 403 /error.html
+ErrorDocument 404 /error.html
+ErrorDocument 500 /error.html
+
+# Force HTTPS (uncomment when SSL is configured)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove www from domain
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+
+# API specific rules
+<IfModule mod_rewrite.c>
+    # Handle API requests with proper headers
+    RewriteCond %{REQUEST_URI} ^/api/
+    RewriteRule .* - [E=API_REQUEST:1]
+    
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*" env=API_REQUEST
+        Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" env=API_REQUEST
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization" env=API_REQUEST
+    </IfModule>
+</IfModule>
+
+# Performance optimization
+<IfModule mod_pagespeed.c>
+    ModPagespeed on
+    ModPagespeedEnableFilters
+    extend_cache,combine_css,combine_javascript,move_css_to_head,collapse_whitespace,remove_comments
+</IfModule>
+
+# Prevent HTTP TRACK attacks
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} ^TRACK$
+RewriteRule .* - [F]
+
+# Bot protection
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase User-Agent "^$" bad_bot
+    SetEnvIfNoCase User-Agent "^bot" bad_bot
+    SetEnvIfNoCase User-Agent "^crawl" bad_bot
+    SetEnvIfNoCase User-Agent "^spider" bad_bot
+    SetEnvIfNoCase User-Agent "^scrape" bad_bot
+</IfModule>
+
+# PHP-FPM configuration (if using PHP-FPM)
+<IfModule mod_proxy_fcgi.c>
+    <FilesMatch \.php$>
+        SetHandler "proxy:unix:/var/run/php/php8.0-fpm.sock|fcgi://localhost/"
+    </FilesMatch>
+</IfModule>
